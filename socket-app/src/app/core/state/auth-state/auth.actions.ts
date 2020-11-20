@@ -1,6 +1,8 @@
+import { IAuthData } from 'lib/interfaces/auth-data';
+
 export class Login {
   public static readonly type = '[Auth] Login';
-  constructor(private readonly login: string, private readonly password: string) { }
+  constructor(public readonly authData: IAuthData) {}
 }
 
 export class Logout {

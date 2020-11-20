@@ -4,7 +4,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 import { MaterialModule } from './material.module';
 
-const MODULES = [CommonModule, FormsModule, ReactiveFormsModule, MaterialModule];
+const MODULES = [FormsModule, ReactiveFormsModule, MaterialModule, CommonModule];
 
 @NgModule({
   imports: MODULES,
