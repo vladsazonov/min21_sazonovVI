@@ -1,16 +1,11 @@
 const express = require('express');
+const bodyParser = require('body-parser');
 const app = express(),
-  bodyParser = require('body-parser');
-port = 3080;
+  port = 3080;
 
-const users = [];
+const users = [{ email: 'test@test.ru', password: '123' }];
 
 app.use(bodyParser.json());
-app.use(express.static(process.cwd() + '../socket-app/'));
-
-app.get('/api/users', (req, res) => {
-  res.json(users);
-});
 
 app.post('/api/user', (req, res) => {
   const user = req.body.user;
@@ -18,8 +13,23 @@ app.post('/api/user', (req, res) => {
   res.json('user addedd');
 });
 
-app.get('/', (req, res) => {
-  res.sendFile(process.cwd() + '/my-app/dist/angular-nodejs-example/index.html');
+app.post('/api/login', (req, res) => {
+  const user = users.find(user => user.email === req.body.email && user.password === req.body.password);
+
+  if (user) {
+    res.json(user);
+  } else {
+    res.status(422).send({
+      errors: 'wrong email or password'
+    });
+  }
+});
+
+app.post('/api/register', (req, res) => {
+  const newUser = { email: req.body.email, password: req.body.password };
+
+  users.push(newUser);
+  res.json('user addedd');
 });
 
 app.listen(port, () => {

@@ -9,6 +9,10 @@ export class AuthService {
   constructor(private httpClient: HttpClient) {}
 
   public login(authData: IAuthData) {
-    return this.httpClient.post<IUser>('/api/login', { authData });
+    return this.httpClient.post<IUser>('/api/login', authData);
+  }
+
+  public register(authData: IAuthData) {
+    return this.httpClient.post<IUser>('/api/register', authData);
   }
 }

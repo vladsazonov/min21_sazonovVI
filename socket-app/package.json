@@ -22,7 +22,10 @@
     "@angular/platform-browser": "~11.0.0",
     "@angular/platform-browser-dynamic": "~11.0.0",
     "@angular/router": "~11.0.0",
+    "@ngxs/router-plugin": "^3.7.0",
+    "@ngxs/storage-plugin": "^3.7.0",
     "@ngxs/store": "^3.7.0",
+    "ngx-take-until-destroy": "^5.4.0",
     "rxjs": "~6.6.0",
     "tslib": "^2.0.0",
     "zone.js": "~0.10.2"
