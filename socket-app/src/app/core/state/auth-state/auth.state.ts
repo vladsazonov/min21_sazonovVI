@@ -15,6 +15,7 @@ import { AuthStateModel } from './auth.model';
   name: 'auth',
   defaults: {
     user: null,
+    isAuthed: false,
     loading: false
   }
 })
@@ -30,13 +31,17 @@ export class AuthState {
     return loading;
   }
 
+  @Selector() public static isAuthed({ isAuthed }: AuthStateModel) {
+    return isAuthed;
+  }
+
   @Action(Login)
   public login(ctx: StateContext<AuthStateModel>, { authData }: Login) {
     ctx.patchState({ loading: true });
 
     return this.authService.login(authData).pipe(
       filter(user => !!user),
-      tap(user => ctx.patchState({ user, loading: false })),
+      tap(user => ctx.patchState({ user, loading: false, isAuthed: true })),
       tap(() => ctx.dispatch(new LoginSuccess())),
       catchError(error => {
         ctx.dispatch(new LoginFailed());
@@ -61,27 +66,34 @@ export class AuthState {
   }
 
   @Action(Logout)
-  public logout(ctx: StateContext<AuthStateModel>) {}
+  public logout(ctx: StateContext<AuthStateModel>) {
+    ctx.patchState({ user: null, isAuthed: false });
+    ctx.dispatch(new Navigate(['/auth/login']));
+  }
 
   @Action(LoginSuccess)
   public onLoginSuccess(ctx: StateContext<AuthStateModel>) {
+    // tslint:disable-next-line: no-console
     console.log('Вы вошли в систему');
     ctx.dispatch(new Navigate(['/home']));
   }
 
   @Action(RegisterSuccess)
   public onRegisterSuccess(ctx: StateContext<AuthStateModel>) {
+    // tslint:disable-next-line: no-console
     console.log('Вы успешно зарегистрировались');
     ctx.dispatch(new Navigate(['/auth/login']));
   }
 
   @Action(LoginFailed)
   public onLoginFailed(ctx: StateContext<AuthStateModel>) {
+    // tslint:disable-next-line: no-console
     console.log('Ошибка при входе');
   }
 
   @Action(RegisterFailed)
   public onRegisterFailed(ctx: StateContext<AuthStateModel>) {
+    // tslint:disable-next-line: no-console
     console.log('Ошибка при регистрации');
   }
 }

@@ -1,1 +1,31 @@
-<h1>main</h1>
+<mat-toolbar color="primary">
+  <button mat-icon-button>
+    <mat-icon>menu</mat-icon>
+  </button>
+  <span>Socket app</span>
+</mat-toolbar>
+
+<h2>
+  <ng-container *ngIf="date; else dateLoading">Сегодня: {{ date | date: 'medium' }}</ng-container>
+  <ng-template #dateLoading>загрузка</ng-template>
+</h2>
+
+<h2>
+  <ng-container *ngIf="scheduleMessage; else scheduleLoading">Сегодня: {{ scheduleMessage }}</ng-container>
+  <ng-template #scheduleLoading>загрузка</ng-template>
+</h2>
+
+<ng-container *ngIf="weather; else weatherLoading">
+  <h2>В {{ weather?.name }} {{ weather?.main?.temp }}°C (ощущается как {{ weather?.main?.feels_like }}°C)</h2>
+  <h2>Влажность: {{ weather?.main?.humidity }} %</h2>
+  <h2>Ветер: {{ weather?.wind?.speed }} м/с</h2>
+  <h2>Координаты: {{ weather?.coord?.lat + ' : ' + weather?.coord?.lon }}</h2>
+</ng-container>
+<ng-template #weatherLoading> Загрузка погоды</ng-template>
+
+<ng-container *ngIf="image; else imageLoading"> <img class="main__image" [src]="image" /> </ng-container>
+<ng-template #imageLoading> Ожидание изображения </ng-template>
+
+<button mat-button (click)="getUserPosition()">Получить координаты</button>
+
+<h2 *ngIf="coordinates">{{ coordinates?.lat }}:{{ coordinates?.lng }}</h2>
