@@ -1,6 +1,7 @@
-import { IUser } from 'src/lib/interfaces/user.interface';
+import { IUser } from 'lib/interfaces/user.interface';
 
-export interface AuthStateModel  {
+export interface AuthStateModel {
   user: IUser;
+  isAuthed: boolean;
   loading: boolean;
 }

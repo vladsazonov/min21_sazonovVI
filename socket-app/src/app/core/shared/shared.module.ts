@@ -4,7 +4,9 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 import { MaterialModule } from './material.module';
 
-const MODULES = [CommonModule, FormsModule, ReactiveFormsModule, MaterialModule];
+import { NgxSkeletonLoaderModule } from 'ngx-skeleton-loader';
+
+const MODULES = [FormsModule, ReactiveFormsModule, MaterialModule, CommonModule, NgxSkeletonLoaderModule];
 
 @NgModule({
   imports: MODULES,
