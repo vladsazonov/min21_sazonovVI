@@ -15,4 +15,12 @@ export class AuthService {
   public register(authData: IAuthData) {
     return this.httpClient.post<IUser>('/api/register', authData);
   }
+
+  public checkSession(userId: string) {
+    return this.httpClient.post<IUser>('/api/checkSession', { userId });
+  }
+
+  public logout(userId: string) {
+    return this.httpClient.post<IUser>('/api/logout', { userId });
+  }
 }

@@ -15,9 +15,18 @@
       <mat-icon matSuffix>vpn_key</mat-icon>
       <mat-error>Введите пароль</mat-error>
     </mat-form-field>
-    <button mat-flat-button color="primary" type="submit" class="login__button">создать</button>
-    <button mat-button type="button" class="login__button login__button_registration" [routerLink]="['/auth/login']">
+    <button mat-flat-button color="primary" type="submit" class="login__button" [disabled]="loading$ | async">
+      создать
+    </button>
+    <button
+      mat-button
+      type="button"
+      class="login__button login__button_registration"
+      [disabled]="loading$ | async"
+      [routerLink]="['/auth/login']"
+    >
       войти
     </button>
   </form>
+  <mat-progress-bar *ngIf="loading$ | async" mode="indeterminate" color="primary"></mat-progress-bar>
 </mat-card>

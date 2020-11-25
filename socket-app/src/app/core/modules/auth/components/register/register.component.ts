@@ -1,13 +1,15 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 
-import { Store } from '@ngxs/store';
+import { Select, Store } from '@ngxs/store';
 
 import { untilDestroyed } from 'ngx-take-until-destroy';
 
+import { Observable } from 'rxjs';
 import { distinctUntilChanged } from 'rxjs/operators';
 
 import { Register } from 'app/core/state/auth-state/auth.actions';
+import { AuthState } from 'app/core/state/auth-state/auth.state';
 
 import { IAuthData } from 'lib/interfaces/auth-data';
 
@@ -17,6 +19,8 @@ import { IAuthData } from 'lib/interfaces/auth-data';
   styleUrls: ['register.component.scss']
 })
 export class RegisterComponent implements OnInit, OnDestroy {
+  @Select(AuthState.loading) public loading$: Observable<boolean>;
+
   public form: FormGroup;
 
   constructor(private formBuilder: FormBuilder, private store: Store) {}

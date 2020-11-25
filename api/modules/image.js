@@ -1,26 +1,28 @@
-exports.sendImage = (i, socket) => {
-  setInterval(() => {
+let interval;
+
+exports.sendImage = (i, io, room) => {
+  interval = setInterval(() => {
     i++;
 
     switch (i) {
       case 10: {
-        socket.emit('image', 'raccoon');
+        io.sockets.in(room).emit('image', 'raccoon');
         setTimeout(() => {
-          socket.emit('image', '');
+          io.sockets.in(room).emit('image', '');
         }, 5000);
         break;
       }
       case 30: {
-        socket.emit('image', 'fox');
+        io.sockets.in(room).emit('image', 'fox');
         setTimeout(() => {
-          socket.emit('image', '');
+          io.sockets.in(room).emit('image', '');
         }, 5000);
         break;
       }
       case 50: {
-        socket.emit('image', 'hamster');
+        io.sockets.in(room).emit('image', 'hamster');
         setTimeout(() => {
-          socket.emit('image', '');
+          io.sockets.in(room).emit('image', '');
         }, 5000);
         break;
       }
@@ -30,4 +32,8 @@ exports.sendImage = (i, socket) => {
       }
     }
   }, 1000);
+};
+
+exports.stopImageInterval = () => {
+  clearInterval(interval);
 };

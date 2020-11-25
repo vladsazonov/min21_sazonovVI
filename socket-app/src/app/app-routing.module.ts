@@ -1,6 +1,8 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 
+import { HomeGuard } from './core/shared/guards/home.guard';
+
 const routes: Routes = [
   {
     path: 'home',
@@ -10,11 +12,9 @@ const routes: Routes = [
     path: 'auth',
     loadChildren: () => import('./core/modules/auth/auth.module').then(m => m.AuthModule)
   },
-
   {
-    path: '',
-    redirectTo: 'home',
-    pathMatch: 'full'
+    path: '**',
+    redirectTo: 'home'
   }
 ];
 
