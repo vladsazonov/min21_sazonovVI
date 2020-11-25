@@ -1,18 +1,12 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 
-import { Select, Store } from '@ngxs/store';
+import { Store } from '@ngxs/store';
 
 import { untilDestroyed } from 'ngx-take-until-destroy';
 
-import { Observable } from 'rxjs';
-import { filter } from 'rxjs/operators';
-
 import { SocketService } from 'app/core/services/socket.service';
 import { Logout } from 'app/core/state/auth-state/auth.actions';
-import { AuthState } from 'app/core/state/auth-state/auth.state';
-
-import { IUser } from 'lib/interfaces/user.interface';
-import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-main',
@@ -20,9 +14,6 @@ import { Router } from '@angular/router';
   styleUrls: ['main.component.scss']
 })
 export class MainPageComponent implements OnInit, OnDestroy {
-  @Select(AuthState.user) private user$: Observable<IUser>;
-
-  public userId: string;
   public date: string;
   public weather: any;
   public image: string | null;
@@ -32,15 +23,6 @@ export class MainPageComponent implements OnInit, OnDestroy {
   constructor(private socketService: SocketService, private store: Store, private router: Router) {}
 
   public ngOnInit() {
-    this.user$
-      .pipe(
-        filter(user => !!user),
-        untilDestroyed(this)
-      )
-      .subscribe(user => {
-        this.userId = user.id;
-      });
-
     this.socketService
       .listen('date')
       .pipe(untilDestroyed(this))
@@ -74,9 +56,7 @@ export class MainPageComponent implements OnInit, OnDestroy {
       });
   }
 
-  public ngOnDestroy() {
-    this.socketService.emit('leaveRoom', this.userId);
-  }
+  public ngOnDestroy() {}
 
   public getUserPosition() {
     navigator.geolocation.getCurrentPosition(position => {

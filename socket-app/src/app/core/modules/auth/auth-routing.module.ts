@@ -12,17 +12,16 @@ const routes: Routes = [
   {
     path: '',
     component: AuthPageComponent,
+    canActivate: [AuthGuard],
     children: [
       { path: 'login', component: LoginComponent },
       { path: 'register', component: RegisterComponent }
     ]
-  },
-  { path: '**', redirectTo: 'login' }
+  }
 ];
 
 @NgModule({
   imports: [RouterModule.forChild(routes)],
-  exports: [RouterModule],
-  providers: [AuthGuard]
+  exports: [RouterModule]
 })
 export class AuthRoutingModule {}

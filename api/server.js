@@ -103,11 +103,12 @@ app.post('/api/checkSession', (req, res) => {
 app.post('/api/logout', (req, res) => {
   const authUserIndex = authUsers.findIndex(user => user.id === req.body.userId);
 
-  if (authUserIndex) {
+  if (authUserIndex != -1) {
     authUsers.splice(authUserIndex, 1);
+    res.json('ok');
+  } else {
+    res.json('user already unlogged');
   }
-
-  res.json('ok');
 });
 
 http.listen(3000, () => {
