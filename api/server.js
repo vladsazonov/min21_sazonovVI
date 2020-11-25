@@ -1,5 +1,6 @@
 const bodyParser = require('body-parser');
 const crypto = require('crypto');
+const express = require('express');
 
 const app = require('express')();
 const http = require('http').Server(app);
@@ -63,6 +64,7 @@ io.on('connection', socket => {
 });
 
 app.use(bodyParser.json());
+app.use(express.static(process.cwd() + '/socket-app/dist/socket-app/'));
 
 app.post('/api/login', (req, res) => {
   const user = users.find(user => user.email === req.body.email && user.password === req.body.password);
@@ -110,6 +112,10 @@ app.post('/api/logout', (req, res) => {
   res.json('ok');
 });
 
-http.listen(3000, () => {
+app.get('*', function (req, res) {
+  res.sendFile(path.join(__dirname + '/dist/socket-app/index.html'));
+});
+
+http.listen(process.env.PORT || 3000, () => {
   console.log(`Server listening on the port`);
 });
